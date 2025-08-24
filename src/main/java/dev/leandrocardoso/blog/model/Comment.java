@@ -6,15 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_replies")
+@Table(name = "tb_comments")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Reply {
+public class Comment {
 
     @Id
     @GeneratedValue
@@ -26,11 +27,11 @@ public class Reply {
     @Column(nullable = false)
     private String message;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "comment_id",
-            nullable = false
+    @OneToMany(
+            mappedBy = "comment",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private Comment comment;
+    private List<Reply> replies;
 
 }
