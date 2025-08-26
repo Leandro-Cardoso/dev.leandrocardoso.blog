@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_comments")
+@Table(name = "tb_posts")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Comment {
+public class Post {
 
     @Id
     @GeneratedValue
@@ -24,21 +24,23 @@ public class Comment {
     @Column(nullable = false)
     private String author;
 
-    @Column(nullable = false)
-    private String message;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "post_id",
-            nullable = false
+    @Column(
+            nullable = false,
+            unique = true
     )
-    private Post post;
+    private String title;
+
+    @Column
+    private String image_url;
+
+    @Column(nullable = false)
+    private String content;
 
     @OneToMany(
-            mappedBy = "comment",
+            mappedBy = "post",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Reply> replies;
+    private List<Comment> comments;
 
 }

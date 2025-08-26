@@ -14,11 +14,15 @@ public class CommentService {
 
     @Autowired
     public CommentService(CommentRepository commentRepository) {
+
         this.commentRepository = commentRepository;
+
     }
 
     public List<Comment> getAllComments() {
+
         return this.commentRepository.findAll();
+
     }
 
 }
