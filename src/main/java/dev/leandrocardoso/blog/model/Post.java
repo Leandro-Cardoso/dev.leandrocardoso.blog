@@ -36,6 +36,14 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
+    @ManyToMany
+    @JoinTable(
+            name = "tb_posts_categories",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
     @OneToMany(
             mappedBy = "post",
             cascade = CascadeType.ALL,
