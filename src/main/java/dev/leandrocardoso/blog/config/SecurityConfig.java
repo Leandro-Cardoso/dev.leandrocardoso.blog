@@ -25,11 +25,29 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
+                        )
+                        .permitAll()
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+                        .anyRequest()
+                        .authenticated()
                 )
-                .formLogin((form) -> form.permitAll())
-                .logout((logout) -> logout.permitAll());
+                .formLogin((form) -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/admin", true)
+                        .permitAll()
+                )
+                .logout((logout) -> logout
+                        .permitAll()
+                )
+                .exceptionHandling(exceptions -> exceptions
+                        .accessDeniedPage("/error/403")
+                );
 
         return http.build();
 
